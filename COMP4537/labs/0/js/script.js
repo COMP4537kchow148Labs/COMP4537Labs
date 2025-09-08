@@ -30,6 +30,9 @@ class Shuffler {
                 this.shuffleCount++;
                 if(this.shuffleCount >= this.maxShuffles){
                     this.stop();
+                    this.buttons.forEach(button => {
+                        button.btn.textContent = "";
+                    });
                     this.buttonsClickable();
                 }
             }, this.pauseLength);
@@ -76,7 +79,7 @@ class Shuffler {
             button.btn.style.position = "fixed";
             button.btn.style.left = randomX + "px";
             button.btn.style.top = randomY + 'px';
-            button.btn.textContent = "";
+            // button.btn.textContent = "";
         });
     }
 }
