@@ -1,6 +1,9 @@
 import { user } from '../lang/messages/en/user.js';
 
+//Store all buttons created
 let arrayButtons = [];
+
+//Button class to create buttons
 class Button{
     constructor(color, order) {
         this.order = order;
@@ -12,6 +15,7 @@ class Button{
     }
 }
 
+//Shuffler class to shuffle buttons
 class Shuffler {
     constructor(buttons){
         this.buttons = buttons;
@@ -23,7 +27,8 @@ class Shuffler {
         this.currentTarget = 1;
     }
 
-    start(){
+    //Start shuffling buttons after a delay
+    start(gameInstance){
         setTimeout(() => {
             this.intervalId = setInterval(() => {
                 this.shuffle();
@@ -33,7 +38,7 @@ class Shuffler {
                     this.buttons.forEach(button => {
                         button.btn.textContent = "";
                     });
-                    this.buttonsClickable();
+                    gameInstance.start();
                 }
             }, this.pauseLength);
         }, this.initialPause);
@@ -42,31 +47,6 @@ class Shuffler {
     stop(){
         clearInterval(this.intervalId);
         this.intervalId = null;
-    }
-
-    buttonsClickable(){
-        this.buttons.forEach(button => {
-            button.btn.addEventListener('click', () => {
-                if(button.order === this.currentTarget){
-                    button.btn.textContent = button.order;
-                    this.currentTarget++;
-
-                    if(this.currentTarget > this.buttons.length){
-                        alert(user.WIN_MESSAGE);
-                        this.buttons.forEach(button => {
-                            button.btn.disabled = true;
-                        });
-                    }
-                }
-                else{
-                    alert(user.LOSE_MESSAGE);
-                    this.buttons.forEach(button => {
-                        button.btn.textContent = button.order;
-                        button.btn.disabled = true;
-                    });
-                }
-            });
-        });
     }
 
     shuffle(){
@@ -79,8 +59,40 @@ class Shuffler {
             button.btn.style.position = "fixed";
             button.btn.style.left = randomX + "px";
             button.btn.style.top = randomY + 'px';
-            // button.btn.textContent = "";
         });
+    }
+}
+
+class Game{
+    constructor(buttons){
+        this.buttons = buttons;
+        this.currentTarget = 1;
+    }
+
+    start(){
+        this.buttons.forEach(button => {
+            button.btn.addEventListener('click', () => {this.handleClick(button)});
+        });
+    }
+
+    handleClick(button){
+        if(button.order === this.currentTarget){
+            button.btn.textContent = button.order;
+            this.currentTarget++;
+            if(this.currentTarget > this.buttons.length){
+                alert(user.WIN_MESSAGE);
+                this.buttons.forEach(button => {
+                    button.btn.disabled = true;
+                });
+            }
+        } 
+        else {
+            alert(user.LOSE_MESSAGE);
+            this.buttons.forEach(button => {
+                button.btn.textContent = button.order;
+                button.btn.disabled = true;
+            });
+        }
     }
 }
 
@@ -113,8 +125,9 @@ function generateButtons(){
         ));
     }
 
+    const game = new Game(arrayButtons);
     window.currentShuffler = new Shuffler(arrayButtons);
-    window.currentShuffler.start();
+    window.currentShuffler.start(game);
 }
 
 document.getElementById("button-form").addEventListener("submit", (event) => {
