@@ -48,6 +48,7 @@ class Shuffler {
         this.intervalId = null;
     }
 
+    //used ChatGPT to help with this function
     shuffle(){
         this.buttons.forEach(button => {
             const maxX = window.innerWidth - button.btn.offsetWidth;
@@ -99,6 +100,7 @@ class Game{
 }
 
 //function to generate random hex color
+//Used ChatGPT to help with this function
 function getRandomColor(){
     const letters = '0123456789ABCDEF';
     let color = '#';
