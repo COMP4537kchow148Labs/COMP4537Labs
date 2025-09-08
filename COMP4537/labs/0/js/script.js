@@ -1,3 +1,4 @@
+//used chatgpt to help with some functions
 import { user } from '../lang/messages/en/user.js';
 
 //Store all buttons created
