@@ -24,7 +24,6 @@ class Shuffler {
         this.intervalId = null;
         this.pauseLength = 2000; // milliseconds
         this.initialPause = buttons.length * 1000; // milliseconds
-        this.currentTarget = 1;
     }
 
     //Start shuffling buttons after a delay
