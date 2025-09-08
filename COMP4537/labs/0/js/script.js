@@ -62,18 +62,21 @@ class Shuffler {
     }
 }
 
+//Game class to handle game logic when shuffling is done
 class Game{
     constructor(buttons){
         this.buttons = buttons;
         this.currentTarget = 1;
     }
 
+    // Start the game
     start(){
         this.buttons.forEach(button => {
             button.btn.addEventListener('click', () => {this.handleClick(button)});
         });
     }
 
+    // Handle button clicks
     handleClick(button){
         if(button.order === this.currentTarget){
             button.btn.textContent = button.order;
@@ -117,6 +120,7 @@ function generateButtons(){
     // Get number of buttons from input
     const buttonCount = document.getElementById("buttons").value;
 
+    // Create new buttons
     for (let i = 0; i < buttonCount; i++) {
         arrayButtons.push(new Button(
             getRandomColor(),
@@ -124,6 +128,7 @@ function generateButtons(){
         ));
     }
 
+    //Start the game and enable shuffling
     const game = new Game(arrayButtons);
     window.currentShuffler = new Shuffler(arrayButtons);
     window.currentShuffler.start(game);
