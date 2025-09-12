@@ -137,6 +137,16 @@ function generateButtons(){
     window.currentShuffler.start(game);
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    //Set button text from user class
+    const submitButton = document.getElementById("go-btn");
+    submitButton.textContent = user.GO_MESSAGE;
+
+    //Set label text from user class
+    const label = document.getElementById("go-btn-label");
+    label.textContent = user.BUTTON_CREATION_MESSAGE;
+});
+
 document.getElementById("button-form").addEventListener("submit", (event) => {
     event.preventDefault(); // Prevent form submission
     generateButtons();
