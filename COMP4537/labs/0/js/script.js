@@ -49,7 +49,7 @@ class Shuffler {
         this.intervalId = null;
     }
 
-    //used ChatGPT to help with this function
+    //Shuffle buttons to random positions
     shuffle(){
         this.buttons.forEach(button => {
             const maxX = window.innerWidth - button.btn.offsetWidth;
@@ -104,8 +104,9 @@ class Game{
 //Used ChatGPT to help with this function
 function getRandomColor(){
     const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
+    let color = '#00';
+    color += '00';
+    for (let i = 0; i < 2; i++) {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
