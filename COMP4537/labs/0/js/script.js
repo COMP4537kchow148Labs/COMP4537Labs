@@ -104,9 +104,8 @@ class Game{
 //Used ChatGPT to help with this function
 function getRandomColor(){
     const letters = '0123456789ABCDEF';
-    let color = '#00';
-    color += '00';
-    for (let i = 0; i < 2; i++) {
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
