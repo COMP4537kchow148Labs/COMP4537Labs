@@ -12,7 +12,7 @@ class NoteManager{
         this.status = document.getElementById(statusId);
         this.notes = this.loadNotes();
         this.renderNotes();
-        
+
         const lastSaved = localStorage.getItem("lastSaved");
         if(lastSaved){
             this.status.textContent = "Stored at: " + lastSaved;

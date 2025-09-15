@@ -10,7 +10,7 @@ class Reader{
         this.container = document.getElementById(containerId);
         this.status = document.getElementById(statusId);
         this.currentNotes = localStorage.getItem("notes");
-        
+
         this.notes = this.loadNotes();
         this.renderNotes(this.notes);
         const lastSaved = localStorage.getItem("lastSaved");
@@ -35,7 +35,7 @@ class Reader{
             const noteDiv = document.createElement("div");
             noteDiv.className = "note";
             noteDiv.dataset.id = note.id;
-            const textArea = document.createElement("textarea");
+            const textArea = document.createElement("textArea");
             textArea.value = note.content;
             textArea.readOnly = true;
             noteDiv.appendChild(textArea);
