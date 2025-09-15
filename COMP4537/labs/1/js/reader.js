@@ -1,6 +1,5 @@
 class Note {
-    constructor(id, content){
-        this.id = id;
+    constructor(content){
         this.content = content;
     }
 }
@@ -12,7 +11,7 @@ class Reader{
         this.currentNotes = localStorage.getItem("notes");
 
         this.notes = this.loadNotes();
-        this.renderNotes(this.notes);
+        this.renderNotes();
         const lastSaved = localStorage.getItem("lastSaved");
         if(lastSaved){
             this.status.textContent = "Updated at: " + lastSaved;
@@ -24,20 +23,21 @@ class Reader{
         const notesData = localStorage.getItem("notes");
         if(notesData){
             const notesArray = JSON.parse(notesData);
-            return notesArray.map(note => new Note(note.id, note.content));
+            return notesArray.map(note => new Note(note.content));
         }
         return [];
     }
 
-    renderNotes(notes){
+    renderNotes(){
         this.container.innerHTML = "";
-        notes.forEach(note => {
+        this.notes.forEach(note => {
             const noteDiv = document.createElement("div");
             noteDiv.className = "note";
-            noteDiv.dataset.id = note.id;
-            const textArea = document.createElement("textArea");
+
+            const textArea = document.createElement("textarea");
             textArea.value = note.content;
             textArea.readOnly = true;
+
             noteDiv.appendChild(textArea);
             this.container.appendChild(noteDiv);
         });
@@ -48,8 +48,9 @@ class Reader{
             const notesData = localStorage.getItem("notes");
             if(notesData !== this.currentNotes){
                 this.currentNotes = notesData;
-                const notes = this.loadNotes();
-                this.renderNotes(notes);
+                this.notes = this.loadNotes();
+                this.renderNotes();
+                
                 const lastSaved = localStorage.getItem("lastSaved");
                 if(lastSaved){
                     this.status.textContent = "Updated at: " + lastSaved;

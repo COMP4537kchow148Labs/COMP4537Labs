@@ -1,7 +1,6 @@
 class Note
 {
-    constructor(id, content){
-        this.id = id;
+    constructor(content){
         this.content = content;
     }
 }
@@ -40,24 +39,23 @@ class NoteManager{
     }
 
     addNote(content = ""){
-        const newNote = new Note(Date.now().toString(), content);
+        const newNote = new Note(content);
         this.notes.push(newNote);
         this.renderNotes();
         this.saveNotes();
     }
 
-    removeNote(id){
-        this.notes = this.notes.filter(note => note.id !== id);
+    removeNote(index){
+        this.notes.splice(index, 1);
         this.renderNotes();
         this.saveNotes();
     }
 
     renderNotes(){
         this.container.innerHTML = "";
-        this.notes.forEach(note => {
+        this.notes.forEach((note, index) => {
             const noteDiv = document.createElement("div");
             noteDiv.className = "note";
-            noteDiv.dataset.id = note.id;
 
             const textArea = document.createElement("textarea");
             textArea.value = note.content;
@@ -68,7 +66,7 @@ class NoteManager{
 
             const removeBtn = document.createElement("button");
             removeBtn.textContent = "Remove";
-            removeBtn.addEventListener("click", () => this.removeNote(note.id));
+            removeBtn.addEventListener("click", () => this.removeNote(index));
 
             noteDiv.appendChild(textArea);
             noteDiv.appendChild(removeBtn);
