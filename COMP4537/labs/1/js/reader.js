@@ -1,3 +1,5 @@
+import { user } from '../lang/messages/en/user.js';
+
 class Note {
     constructor(content){
         this.content = content;
@@ -50,10 +52,10 @@ class Reader{
                 this.currentNotes = notesData;
                 this.notes = this.loadNotes();
                 this.renderNotes();
-                
+
                 const lastSaved = localStorage.getItem("lastSaved");
                 if(lastSaved){
-                    this.status.textContent = "Updated at: " + lastSaved;
+                    this.status.textContent = user.UPDATED_MESSAGE + lastSaved;
                 }
             }
         }, 2000);

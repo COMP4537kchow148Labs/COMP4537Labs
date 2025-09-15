@@ -1,3 +1,5 @@
+import { user } from '../lang/messages/en/user.js';
+
 class Note
 {
     constructor(content){
@@ -14,7 +16,7 @@ class NoteManager{
 
         const lastSaved = localStorage.getItem("lastSaved");
         if(lastSaved){
-            this.status.textContent = "Stored at: " + lastSaved;
+            this.status.textContent = user.STORED_MESSAGE + lastSaved;
         }
     }
 
@@ -22,7 +24,7 @@ class NoteManager{
         const notesData = localStorage.getItem("notes");
         if(notesData){
             const notesArray = JSON.parse(notesData);
-            return notesArray.map(note => new Note(note.id, note.content));
+            return notesArray.map(note => new Note(note.content));
         }
         return [];
     }
