@@ -1,13 +1,25 @@
 import { user } from '../lang/messages/en/user.js';
 
 class Note {
-    constructor(content){
+    constructor(content) {
         this.content = content;
+
+        this.textArea = document.createElement("textarea");
+        this.textArea.value = this.content;
+        this.textArea.readOnly = true;
+
+        this.noteDiv = document.createElement("div");
+        this.noteDiv.className = "note";
+        this.noteDiv.appendChild(this.textArea);
+    }
+
+    render(container) {
+        container.appendChild(this.noteDiv);
     }
 }
 
-class Reader{
-    constructor(containerId, statusId){
+class Reader {
+    constructor(containerId, statusId) {
         this.container = document.getElementById(containerId);
         this.status = document.getElementById(statusId);
         this.currentNotes = localStorage.getItem("notes");
@@ -15,46 +27,36 @@ class Reader{
         this.notes = this.loadNotes();
         this.renderNotes();
         const lastSaved = localStorage.getItem("lastSaved");
-        if(lastSaved){
-            this.status.textContent = "Updated at: " + lastSaved;
+        if (lastSaved) {
+            this.status.textContent = user.UPDATED_MESSAGE + lastSaved;
         }
         this.retrieveNotes();
     }
 
-    loadNotes(){
+    loadNotes() {
         const notesData = localStorage.getItem("notes");
-        if(notesData){
+        if (notesData) {
             const notesArray = JSON.parse(notesData);
             return notesArray.map(note => new Note(note.content));
         }
         return [];
     }
 
-    renderNotes(){
+    renderNotes() {
         this.container.innerHTML = "";
-        this.notes.forEach(note => {
-            const noteDiv = document.createElement("div");
-            noteDiv.className = "note";
-
-            const textArea = document.createElement("textarea");
-            textArea.value = note.content;
-            textArea.readOnly = true;
-
-            noteDiv.appendChild(textArea);
-            this.container.appendChild(noteDiv);
-        });
+        this.notes.forEach(note => note.render(this.container));
     }
 
-    retrieveNotes(){
+    retrieveNotes() {
         setInterval(() => {
             const notesData = localStorage.getItem("notes");
-            if(notesData !== this.currentNotes){
+            if (notesData !== this.currentNotes) {
                 this.currentNotes = notesData;
                 this.notes = this.loadNotes();
                 this.renderNotes();
 
                 const lastSaved = localStorage.getItem("lastSaved");
-                if(lastSaved){
+                if (lastSaved) {
                     this.status.textContent = user.UPDATED_MESSAGE + lastSaved;
                 }
             }
