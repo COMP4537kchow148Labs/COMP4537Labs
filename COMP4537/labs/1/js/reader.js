@@ -28,7 +28,7 @@ class Reader {
         document.title = user.READER_PAGE_TITLE;
         document.getElementById("readerTitle").textContent = user.READER_PAGE_TITLE;
         document.getElementById("goBack").textContent = user.GO_BACK;
-        
+
         this.container = document.getElementById(containerId); // Where notes are displayed
         this.status = document.getElementById(statusId); // Where timestamp is displayed
         this.currentNotes = localStorage.getItem("notes"); // Track current notes state
@@ -48,7 +48,11 @@ class Reader {
         if (notesData) {
             const notesArray = JSON.parse(notesData);
             //Create Note objects for each note data
-            return notesArray.map(note => new Note(note.content));
+            const notes = [];
+            notesArray.forEach(note => {
+                notes.push(new Note(note.content));
+            });
+            return notes;
         }
         return [];
     }

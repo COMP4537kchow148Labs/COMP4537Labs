@@ -2,11 +2,10 @@ import { user } from '../lang/messages/en/user.js';
 
 // Note class represents a single note with editing and removal capabilities
 class Note {
-    constructor(content, index, onRemove, onUpdate) {
+    constructor(content, index, writer) {
         this.content = content; // Note content
         this.index = index; // Note index in the list
-        this.onRemove = onRemove; // Callback for removal
-        this.onUpdate = onUpdate; // Callback for update
+        this.writer = writer;
 
         // Create textarea
         this.textArea = document.createElement("textarea");
@@ -15,14 +14,17 @@ class Note {
         //Save changes when user types
         this.textArea.addEventListener("input", (e) => {
             this.content = e.target.value;
-            this.store(); // Call store method to save changes
+            this.writer.updateNote(this.index, this.content);
         });
 
         // Create remove button
         this.removeBtn = document.createElement("button");
         this.removeBtn.textContent = "Remove";
         // Attach event listener to handle removal
-        this.removeBtn.addEventListener("click", () => this.remove());
+        this.removeBtn.addEventListener("click", () => {
+            this.writer.removeNote(this.index);
+            this.noteDiv.remove();
+        });
 
         // Create note container
         this.noteDiv = document.createElement("div");
@@ -34,17 +36,6 @@ class Note {
     //Add note to container
     render(container) {
         container.appendChild(this.noteDiv);
-    }
-
-    //Remove note from DOM and notify Writer to remove from storage
-    remove() {
-        this.noteDiv.remove();
-        this.onRemove(this.index);
-    }
-
-    //Notify Writer to update storage
-    store() {
-        this.onUpdate(this.index, this.content);
     }
 }
 
@@ -75,10 +66,11 @@ class Writer {
         const notesData = localStorage.getItem("notes");
         if (notesData) {
             const notesArray = JSON.parse(notesData);
-            // Map each note data to a Note object with callbacks
-            return notesArray.map((note, idx) =>
-                new Note(note.content, idx, this.removeNote.bind(this), this.updateNote.bind(this))
-            );
+            const loadedNotes = [];
+            notesArray.forEach((note, idx) =>{
+                loadedNotes.push(new Note(note.content, idx, this))
+            });
+            return loadedNotes;
         }
         return [];
     }
@@ -93,9 +85,9 @@ class Writer {
     }
 
     //Add a new note and save changes
-    addNote(content = "") {
+    addNote() {
         const idx = this.notes.length;
-        const newNote = new Note(content, idx, this.removeNote.bind(this), this.updateNote.bind(this));
+        const newNote = new Note("", idx, this);
         this.notes.push(newNote);
         this.renderNotes();
         this.saveNotes();
