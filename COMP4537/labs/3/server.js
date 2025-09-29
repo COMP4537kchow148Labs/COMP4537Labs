@@ -38,3 +38,4 @@ http.createServer(function (req, res){
 // http://localhost:8080/COMP4537/labs/3/getDate/?name=Keith
 // http://localhost:8080/COMP4537/labs/3/writeFile/?text=BCIT
 // http://localhost:8080/COMP4537/labs/3/readFile/file.txt
+// test
