@@ -13,7 +13,7 @@
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.send(JSON.stringify({word: word, definition: definition}));
         xhttp.onload = function() {
-            if (xhttp.status === 200) {
+            if (xhttp.status === 200 || xhttp.status === 201) {
                 alert("Word and definition submitted successfully!");
             } else {
                 alert("Word submission failed. Word may already exist.");
