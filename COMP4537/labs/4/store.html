@@ -1,0 +1,23 @@
+<h1>Store</h1>
+<div id="store">
+    <input type="text" id="wordInput" placeholder="Type a word">
+    <textarea id="wordDefinitions"></textarea>
+    <button id="submitButton" onClick="sendWord()">Submit</button>
+</div>
+<script>
+    function sendWord(){
+        const xhttp = new XMLHttpRequest();
+        const word = document.getElementById("wordInput").value;
+        const definition = document.getElementById("wordDefinitions").value;
+        xhttp.open("POST", "/api/definitions", true); //change for whatever your endpoint is
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify({word: word, definition: definition}));
+        xhttp.onload = function() {
+            if (xhttp.status === 200) {
+                alert("Word and definition submitted successfully!");
+            } else {
+                alert("Word submission failed. Word may already exist.");
+            }
+        };
+    }
+</script>

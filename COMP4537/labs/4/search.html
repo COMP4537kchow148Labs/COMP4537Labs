@@ -1,0 +1,23 @@
+<h1>Search</h1>
+<div id="search">
+    <input type="text" id="wordInput" placeholder="Type a word">
+    <textarea id="wordDefinitions" readonly></textarea>
+    <button id="searchButton" onclick="searchWord()">Search</button>
+</div>
+<script>
+    function searchWord(){
+        const xhttp = new XMLHttpRequest();
+        const word = document.getElementById("wordInput").value;
+        const error = document.getElementById("errorMessage");
+        xhttp.open("GET", "/api/definitions/" + word, true); //change for whatever your endpoint is
+        xhttp.send();
+        xhttp.onload = function() {
+            if (xhttp.status === 200) {
+                const response = JSON.parse(xhttp.responseText);
+                document.getElementById("wordDefinitions").value = response.definition;
+            } else {
+                alert("No definition found for the word: " + word);
+            }
+        }
+    }
+</script>
