@@ -39,8 +39,15 @@ const server = http.createServer(async (req, res) => {
 
     // allow requests from any origin (Cross Origin Resource Sharing)
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    // handle preflight requests (Checks if the actual request is safe to send.)
+    if (req.method === 'OPTIONS') {
+        res.writeHead(200);
+        res.end();
+        return;
+    }
 
     const parsedUrl = url.parse(req.url, true);
     const pathName = parsedUrl.pathname;
@@ -54,7 +61,7 @@ const server = http.createServer(async (req, res) => {
             const word = parsedUrl.query.word;
 
             // Check if inputted word is valid
-            if (!isValidInput(word)) {
+            if (isValidInput(word) === false) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ 
                     error: 'Invalid input',
@@ -71,15 +78,15 @@ const server = http.createServer(async (req, res) => {
                 // Respond with the definition if found
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ 
-                    word: searchWord,
-                    definition: wordDefinition,
+                    word: wordDefinition.word,
+                    definition: wordDefinition.definition,
                     requestNumber: requestCount
                 }));
             } else {
                 // If word not found, throw 404 error
                 res.writeHead(404, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ 
-                    message: `Word ${searchWord} not found`,
+                    message: `Word ${wordDefinition.word} not found`,
                     requestNumber: requestCount,
                     totalEntries: dictionary.length,
                 }));
@@ -95,7 +102,7 @@ const server = http.createServer(async (req, res) => {
                 if (!isValidInput(word)) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ 
-                        error: 'Invalid word: word is required',
+                        error: `Invalid word: ${word}, Try again.`,
                         requestNumber: requestCount
                     }));
                     return;
@@ -105,7 +112,7 @@ const server = http.createServer(async (req, res) => {
                 if (!isValidInput(definition)) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({
-                        error: 'Invalid definition: definition is required, Please try again.',
+                        error: 'Invalid definition: a definition is required, Please try again.',
                         requestNumber: requestCount
                     }));
                     return;
@@ -122,7 +129,7 @@ const server = http.createServer(async (req, res) => {
                 if (existingWord) {
                     res.writeHead(409, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ 
-                        error: `Word ${newWord} already exists`,
+                        error: `Word ${existingWord.word} already exists`,
                         requestNumber: requestCount,
                         totalEntries: dictionary.length,
                     }))
@@ -134,8 +141,8 @@ const server = http.createServer(async (req, res) => {
                     res.writeHead(201, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({
                         message: `Word ${newWord} added successfully`,
-                        word: newWord,
-                        definition: newDefinition,
+                        word: newWord.word,
+                        definition: newDefinition.definition,
                         requestNumber: requestCount,
                         totalEntries: dictionary.length,
                     }));
