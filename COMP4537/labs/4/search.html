@@ -9,7 +9,7 @@
         const xhttp = new XMLHttpRequest();
         const word = document.getElementById("wordInput").value;
         const error = document.getElementById("errorMessage");
-        xhttp.open("GET", "https://comp4537-lab4-8fgv.onrender.com/" + word, true); //change for whatever your endpoint is
+        xhttp.open("GET", "https://comp4537-lab4-8fgv.onrender.com/api/definitions" + word, true); //change for whatever your endpoint is
         xhttp.send();
         xhttp.onload = function() {
             if (xhttp.status === 200) {
