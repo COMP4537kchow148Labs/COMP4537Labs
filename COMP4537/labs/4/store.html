@@ -9,7 +9,7 @@
         const xhttp = new XMLHttpRequest();
         const word = document.getElementById("wordInput").value;
         const definition = document.getElementById("wordDefinitions").value;
-        xhttp.open("POST", "/api/definitions", true); //change for whatever your endpoint is
+        xhttp.open("POST", "https://comp4537-lab4-8fgv.onrender.com/", true); //change for whatever your endpoint is
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.send(JSON.stringify({word: word, definition: definition}));
         xhttp.onload = function() {
