@@ -1,47 +1,35 @@
-<h1>Search</h1>
-<div id="search">
-    <label for="wordInput">Word:</label>
-    <input type="text" id="wordInput" placeholder="Type a word">
-    <label for="wordDefinitions">Definition:</label>
-    <textarea id="wordDefinitions" readonly></textarea>
-    <button id="searchButton" onclick="searchWord()">Search</button>
-</div>
-<style>
-    #search {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        max-width: 400px;
-        margin: 0 auto;
-    }
-
-    #wordInput, #wordDefinitions {
-        width: 100%;
-        padding: 8px;
-        font-size: 16px;
-        box-sizing: border-box;
-    }
-
-    #searchButton {
-        align-self: flex-start;
-        padding: 8px 16px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-</style>
-<script>
-    function searchWord(){
-        const xhttp = new XMLHttpRequest();
-        const word = document.getElementById("wordInput").value;
-        xhttp.open("GET", "https://comp4537-lab4-8fgv.onrender.com/api/definitions?word=" + word, true); //change for whatever your endpoint is
-        xhttp.send();
-        xhttp.onload = function() {
-            if (xhttp.status === 200) {
-                const response = JSON.parse(xhttp.responseText);
-                document.getElementById("wordDefinitions").value = response.definition;
-            } else {
-                alert("No definition found for the word: " + word);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+</head>
+<body>
+    <h1>Search</h1>
+    <div id="search">
+        <label for="wordInput">Word:</label>
+        <input type="text" id="wordInput" placeholder="Type a word">
+        <label for="wordDefinitions">Definition:</label>
+        <textarea id="wordDefinitions" readonly></textarea>
+        <button id="searchButton" onclick="searchWord()">Search</button>
+    </div>
+    <script>
+        function searchWord(){
+            const xhttp = new XMLHttpRequest();
+            const word = document.getElementById("wordInput").value;
+            xhttp.open("GET", "https://comp4537-lab4-8fgv.onrender.com/api/definitions?word=" + word, true); //change for whatever your endpoint is
+            xhttp.send();
+            xhttp.onload = function() {
+                if (xhttp.status === 200) {
+                    const response = JSON.parse(xhttp.responseText);
+                    document.getElementById("wordDefinitions").value = response.definition;
+                } else {
+                    alert("No definition found for the word: " + word);
+                }
             }
         }
-    }
-</script>
+    </script>
+</body>
+</html>

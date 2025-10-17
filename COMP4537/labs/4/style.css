@@ -1,0 +1,21 @@
+#search, #store {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#wordInput, #wordDefinitions {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#searchButton, #submitButton {
+    align-self: flex-start;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}

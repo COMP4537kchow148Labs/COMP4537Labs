@@ -1,48 +1,36 @@
-<h1>Store</h1>
-<div id="store">
-    <label for="wordInput">Word:</label>
-    <input type="text" id="wordInput" placeholder="Type a word">
-    <label for="wordDefinitions">Definition:</label>
-    <textarea id="wordDefinitions"></textarea>
-    <button id="submitButton" onClick="sendWord()">Submit</button>
-</div>
-<style>
-    #store {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        max-width: 400px;
-        margin: 0 auto;
-    }
-
-    #wordInput, #wordDefinitions {
-        width: 100%;
-        padding: 8px;
-        font-size: 16px;
-        box-sizing: border-box;
-    }
-
-    #submitButton {
-        align-self: flex-start;
-        padding: 8px 16px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-</style>
-<script>
-    function sendWord(){
-        const xhttp = new XMLHttpRequest();
-        const word = document.getElementById("wordInput").value;
-        const definition = document.getElementById("wordDefinitions").value;
-        xhttp.open("POST", "https://comp4537-lab4-8fgv.onrender.com/api/definitions", true); //change for whatever your endpoint is
-        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhttp.send(JSON.stringify({word: word, definition: definition}));
-        xhttp.onload = function() {
-            if (xhttp.status === 200 || xhttp.status === 201) {
-                alert("Word and definition submitted successfully!");
-            } else {
-                alert("Word submission failed. Word may already exist.");
-            }
-        };
-    }
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+</head>
+<body>
+    <h1>Store</h1>
+    <div id="store">
+        <label for="wordInput">Word:</label>
+        <input type="text" id="wordInput" placeholder="Type a word">
+        <label for="wordDefinitions">Definition:</label>
+        <textarea id="wordDefinitions"></textarea>
+        <button id="submitButton" onClick="sendWord()">Submit</button>
+    </div>
+    <script>
+        function sendWord(){
+            const xhttp = new XMLHttpRequest();
+            const word = document.getElementById("wordInput").value;
+            const definition = document.getElementById("wordDefinitions").value;
+            xhttp.open("POST", "https://comp4537-lab4-8fgv.onrender.com/api/definitions", true); //change for whatever your endpoint is
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.send(JSON.stringify({word: word, definition: definition}));
+            xhttp.onload = function() {
+                if (xhttp.status === 200 || xhttp.status === 201) {
+                    alert("Word and definition submitted successfully!");
+                } else {
+                    alert("Word submission failed. Word may already exist.");
+                }
+            };
+        }
+    </script>
+</body>
+</html>
