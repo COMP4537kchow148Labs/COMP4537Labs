@@ -16,11 +16,21 @@
         <button id="submitButton" onClick="sendWord()">Submit</button>
     </div>
     <script>
+        function isValidWord(word){
+            const regex = /^[A-Za-z]+$/;
+            return regex.test(word);
+        }
+
         function sendWord(){
             const xhttp = new XMLHttpRequest();
             const word = document.getElementById("wordInput").value;
             const definition = document.getElementById("wordDefinitions").value;
-
+            
+            if(!isValidWord(word)){
+                alert("Please enter a valid word containing only alphabetic characters.");
+                return;
+            }
+            
             xhttp.open("POST", "https://comp4537-lab4-8fgv.onrender.com/api/definitions", true); //change for whatever your endpoint is
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhttp.send(JSON.stringify({word: word, definition: definition}));
