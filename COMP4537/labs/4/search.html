@@ -22,11 +22,18 @@
             xhttp.open("GET", "https://comp4537-lab4-8fgv.onrender.com/api/definitions?word=" + word, true); //change for whatever your endpoint is
             xhttp.send();
             xhttp.onload = function() {
+                const response = JSON.parse(xhttp.responseText);
                 if (xhttp.status === 200) {
-                    const response = JSON.parse(xhttp.responseText);
                     document.getElementById("wordDefinitions").value = response.definition;
-                } else {
-                    alert("No definition found for the word: " + word);
+                }
+                else if (xhttp.status === 400){
+                    alert(response.error);
+                }
+                else if (xhttp.status === 404){
+                    alert(response.message);
+                }
+                else {
+                    alert("An unexpected error occured.");
                 }
             }
         }

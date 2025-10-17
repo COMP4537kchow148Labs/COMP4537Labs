@@ -20,14 +20,26 @@
             const xhttp = new XMLHttpRequest();
             const word = document.getElementById("wordInput").value;
             const definition = document.getElementById("wordDefinitions").value;
+
             xhttp.open("POST", "https://comp4537-lab4-8fgv.onrender.com/api/definitions", true); //change for whatever your endpoint is
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhttp.send(JSON.stringify({word: word, definition: definition}));
+
             xhttp.onload = function() {
+                const response = JSON.parse(xhttp.responseText);
                 if (xhttp.status === 200 || xhttp.status === 201) {
-                    alert("Word and definition submitted successfully!");
-                } else {
-                    alert("Word submission failed. Word may already exist.");
+                    // alert("Word and definition submitted successfully!");
+                    alert(response.message);
+                }
+                else if (xhttp.status === 400){
+                    alert(response.error);
+                } 
+                else if (xhttp.status === 409){
+                    alert(response.error);
+                }
+                else {
+                    alert("An unexpected error occured.");
+                    // alert("Word submission failed. Word may already exist.");
                 }
             };
         }
