@@ -28,7 +28,6 @@
             xhttp.onload = function() {
                 const response = JSON.parse(xhttp.responseText);
                 if (xhttp.status === 200 || xhttp.status === 201) {
-                    // alert("Word and definition submitted successfully!");
                     alert(response.message);
                 }
                 else if (xhttp.status === 400){
@@ -39,7 +38,6 @@
                 }
                 else {
                     alert("An unexpected error occured.");
-                    // alert("Word submission failed. Word may already exist.");
                 }
             };
         }
