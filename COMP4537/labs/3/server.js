@@ -35,6 +35,6 @@ http.createServer(function (req, res){
     }
 }).listen(8080);
 
-// http://localhost:8080/COMP4537/labs/3/getDate/?name=Keith
-// http://localhost:8080/COMP4537/labs/3/writeFile/?text=BCIT
-// http://localhost:8080/COMP4537/labs/3/readFile/file.txt
+// https://comp4537labs-oxfd.onrender.com/COMP4537/labs/3/getDate/?name=Keith
+// https://comp4537labs-oxfd.onrender.com/COMP4537/labs/3/writeFile/?text=BCIT
+// https://comp4537labs-oxfd.onrender.com/COMP4537/labs/3/readFile/file.txt
