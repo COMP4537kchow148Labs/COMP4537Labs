@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 5</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Lab 5</h1>
+    <div id="inputSection">
+        <h1>Patient Data</h1>
+        <div id="patientInfo">
+            <textarea id="sendQuery" required></textarea>
+            <button id="runQueryBtn">Run Query</button>
+            <button id="defaultRowsBtn">Insert Default Rows</button>
+        </div>
+    </div>
+
+    <br>
+
+    <div id = "outputSection">
+        <table id ="outputTable">
+            <thead>
+                <tr>
+                    <th>Patient ID  </th>
+                    <th>Patient Name</th>
+                    <th>Date of Birth</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
